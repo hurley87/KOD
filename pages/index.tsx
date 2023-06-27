@@ -39,7 +39,7 @@ export default function Home() {
   return (
     <Layout>
       {/* list sports as tabs that update sport */}
-      <div className="flex space-x-4 mb-8 justify-center">
+      <div className="flex space-x-4 my-6 justify-center">
         {sports.map((sportName) => (
           <button
             key={sportName}
