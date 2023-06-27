@@ -34,7 +34,7 @@ const GameCard = ({
   startsAt,
 }: GameCardProps) => (
   <Link
-    className="p-4 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+    className="p-4 border border-gray-300 rounded-lg hover:bg-gray-800 transition"
     href={`/games/${id}`}
   >
     <div className="flex justify-between text-sm">
