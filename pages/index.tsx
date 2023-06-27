@@ -61,6 +61,11 @@ export default function Home() {
   const { loading, data } = useSportEvents("MMA");
   console.log(data);
   console.log(loading);
+
+  if (loading) {
+    return <Layout>Loading...</Layout>;
+  }
+
   return (
     <Layout>
       <div className="grid lg:grid-cols-1 sm:lg:grid-cols-2 md:lg:grid-cols-3 lg:lg:grid-cols-4 gap-2">
