@@ -58,7 +58,7 @@ const GameCard = ({
 );
 
 export default function Home() {
-  const { loading, data } = useSportEvents("MMA");
+  const { loading, data } = useSportEvents("Baseball");
 
   if (loading) {
     return <Layout>Loading...</Layout>;
