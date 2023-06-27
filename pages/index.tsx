@@ -1,23 +1,11 @@
-import { Inter } from "next/font/google";
 import Layout from "@/components/Layout";
 import useSportEvents from "@/hooks/useSportEvents";
 import Link from "next/link";
 import dayjs from "dayjs";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useState } from "react";
 
 type GameCardProps = {
   id: string;
-  sport: {
-    name: string;
-  };
-  league: {
-    name: string;
-    country: {
-      name: string;
-    };
-  };
-
   participants: {
     name: string;
 
@@ -26,51 +14,55 @@ type GameCardProps = {
   startsAt: number;
 };
 
-const GameCard = ({
-  id,
-  sport,
-  league,
-  participants,
-  startsAt,
-}: GameCardProps) => (
+const GameCard = ({ id, participants, startsAt }: GameCardProps) => (
   <Link
-    className="p-4 border border-gray-300 rounded-lg hover:bg-gray-800 transition"
+    className="p-4 border border-purple-200 rounded-md hover:bg-gray-800 transition"
     href={`/games/${id}`}
   >
-    <div className="flex justify-between text-sm">
-      <span>{sport.name}</span>
-      <span>{dayjs(startsAt * 1000).format("DD MMM HH:mm")}</span>
-    </div>
-    <div className="mt-2 text-sm text-gray-400">
-      {league.country.name} &middot; {league.name}
-    </div>
-    <div className="mt-3 space-y-1">
-      {participants.map(({ image, name }) => (
-        <div key={name} className="flex items-center">
-          <div className="flex items-center justify-center w-8 h-8 mr-2 border border-gray-300 rounded-full">
-            <img className="w-4 h-4" src={image} alt={name} />
-          </div>
-          <span className="text-md">{name}</span>
-        </div>
-      ))}
+    <p className="text-xs text-gray-400">
+      Today · {dayjs(startsAt * 1000).format("HH:mm")}
+    </p>
+    <div className="mt-1 space-y-1">
+      <p className="text-sm">
+        {participants[0].name} - {participants[1].name}
+      </p>
     </div>
   </Link>
 );
 
-export default function Home() {
-  const { loading, data } = useSportEvents("Baseball");
+const sports = ["Baseball", "MMA"];
 
-  if (loading) {
-    return <Layout>Loading...</Layout>;
-  }
+export default function Home() {
+  const [sport, setSport] = useState<string>("Baseball");
+  const { loading, data } = useSportEvents(sport);
 
   return (
     <Layout>
-      <div className="grid lg:grid-cols-1 sm:lg:grid-cols-2 md:lg:grid-cols-3 lg:lg:grid-cols-4 gap-2">
-        {data?.games.map((game: any) => (
-          <GameCard key={game.id} {...game} />
+      {/* list sports as tabs that update sport */}
+      <div className="flex space-x-4 mb-8 justify-center">
+        {sports.map((sportName) => (
+          <button
+            key={sportName}
+            className={`${
+              sport === sportName
+                ? "text-primary border-b-2 border-primary"
+                : ""
+            } text-sm px-4 py-1 text-2xl font-bold`}
+            onClick={() => setSport(sportName)}
+          >
+            {sportName}
+          </button>
         ))}
       </div>
+      {loading ? (
+        <p>loading events...</p>
+      ) : (
+        <div className="grid lg:grid-cols-1 sm:lg:grid-cols-2 md:lg:grid-cols-3 lg:lg:grid-cols-4 gap-2">
+          {data?.games.map((game: any) => (
+            <GameCard key={game.id} {...game} />
+          ))}
+        </div>
+      )}
     </Layout>
   );
 }
