@@ -47,7 +47,7 @@ export default function Home() {
               sport === sportName
                 ? "text-primary border-b-2 border-primary"
                 : ""
-            } text-sm px-4 py-1 text-2xl font-bold`}
+            } text-sm px-4 py-1 text-lg font-black`}
             onClick={() => setSport(sportName)}
           >
             {sportName}
@@ -55,7 +55,7 @@ export default function Home() {
         ))}
       </div>
       {loading ? (
-        <p>loading events...</p>
+        <p>loading events ...</p>
       ) : (
         <div className="grid lg:grid-cols-1 sm:lg:grid-cols-2 md:lg:grid-cols-3 lg:lg:grid-cols-4 gap-2">
           {data?.games.map((game: any) => (
