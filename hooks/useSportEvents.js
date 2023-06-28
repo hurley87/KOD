@@ -16,7 +16,6 @@ const QUERY = `
       }
       participants {
         name
-        image
       }
       startsAt
     }

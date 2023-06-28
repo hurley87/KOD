@@ -1,19 +1,21 @@
 import type { NextPage } from "next";
 import * as React from "react";
-import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
+import ViewGame from "@/components/ViewGame";
+import useSportEvent from "@/hooks/useSportEvent";
 
-const QuizPage: NextPage = () => {
-  const [gameId, setGameId] = React.useState<string | undefined>();
-  const router = useRouter();
+const GamePage: NextPage = () => {
+  const { loading, game, markets } = useSportEvent();
 
-  React.useEffect(() => {
-    if (router.isReady) {
-      setGameId(router.query.gameId?.toString());
-    }
-  }, [router.isReady, router.query]);
+  if (loading) {
+    return <Layout>Loading...</Layout>;
+  }
 
-  return <Layout>Finishing this next: {gameId}</Layout>;
+  return (
+    <Layout>
+      <ViewGame game={game} markets={markets} />
+    </Layout>
+  );
 };
 
-export default QuizPage;
+export default GamePage;
