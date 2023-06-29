@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import { useState } from "react";
+import PlaceBet from "./PlaceBet";
 
 type Props = {
   game: any;
@@ -28,6 +30,15 @@ const convertOdds = (odds: number) => {
 const ViewGame = ({ game, markets }: Props) => {
   const startsAt = game.startsAt;
   const participants = game.participants;
+  const [selectedOutcome, setSelectedOutcome] = useState(null);
+
+  const handleOutcomeClick = (outcome: any) => {
+    setSelectedOutcome(outcome);
+  };
+
+  const handleModalClose = () => {
+    setSelectedOutcome(null);
+  };
 
   return (
     <>
@@ -45,15 +56,12 @@ const ViewGame = ({ game, markets }: Props) => {
             <div className="mb-2 font-semibold">{marketName}</div>
             <div className="space-y-1">
               {row.map((outcomes, index) => (
-                <div
-                  onClick={() => alert("I'll build this next")}
-                  key={index}
-                  className="flex justify-between"
-                >
+                <div key={index} className="flex justify-between">
                   <div className="flex gap-3 w-full">
                     {outcomes.map((outcome: outcomeProps) => (
                       <div
                         key={outcome.selectionName}
+                        onClick={() => handleOutcomeClick(outcome)}
                         className="flex justify-between py-2 px-3 cursor-pointer border border-purple-200 rounded-md hover:bg-gray-800 transition"
                         style={{ width: `calc(100% / ${outcomes.length})` }}
                       >
@@ -72,6 +80,13 @@ const ViewGame = ({ game, markets }: Props) => {
           </div>
         ))}
       </div>
+      {Boolean(selectedOutcome) && (
+        <PlaceBet
+          game={game}
+          outcome={selectedOutcome}
+          closeModal={handleModalClose}
+        />
+      )}
     </>
   );
 };
