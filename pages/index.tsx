@@ -19,11 +19,11 @@ const GameCard = ({ id, participants, startsAt }: GameCardProps) => (
     className="p-4 border border-purple-200 rounded-md hover:bg-gray-800 transition"
     href={`/games/${id}`}
   >
-    <p className="text-xs text-gray-400">
+    <p className="text-sm lg:text-xs text-gray-400">
       Today · {dayjs(startsAt * 1000).format("HH:mm")}
     </p>
     <div className="mt-1 space-y-1">
-      <p className="text-sm">
+      <p className="text-sm lg:text-xs">
         {participants[0].name} - {participants[1].name}
       </p>
     </div>

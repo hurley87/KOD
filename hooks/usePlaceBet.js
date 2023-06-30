@@ -8,13 +8,13 @@ import {
   useContractFunction,
   ERC20Interface,
 } from "@usedapp/core";
-import Bet from "./Bet.json";
+import LP from "./LP.json";
 
 const USDT_DECIMALS = 6;
 const USDT_ADDRESS = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
 const LP_ADDRESS = "0x7043E4e1c4045424858ECBCED80989FeAfC11B36";
 const CORE_ADDRESS = "0x3B182e9FbF50398A412d17D7969561E3BfcC4fA4";
-const LP_ABI = Bet.abi;
+const LP_ABI = LP.abi;
 
 const USDTContract = new ethers.Contract(USDT_ADDRESS, ERC20Interface);
 const lpContract = new ethers.Contract(LP_ADDRESS, LP_ABI);

@@ -1,33 +1,13 @@
 import { useEthers } from "@usedapp/core";
-import dayjs from "dayjs";
 import { getMarketName, getSelectionName } from "@azuro-org/dictionaries";
+import dayjs from "dayjs";
 import useBetsHistory from "@/hooks/useBetsHistory";
+import useRedeemBet from "@/hooks/useRedeemBet";
+import Layout from "@/components/Layout";
+import { convertOdds } from "@/lib/convertOdds";
 
-const GameInfo = ({ game }) => (
-  <div className="w-full py-4 px-6 bg-white rounded-xl shadow-xl">
-    <div className="flex justify-between text-md">
-      <span>{game.sport.name}</span>
-      <span>{dayjs(game.startsAt * 1000).format("DD MMM HH:mm")}</span>
-    </div>
-    <div className="mt-1 text-md text-gray-400">
-      {game.league.country.name} &middot; {game.league.name}
-    </div>
-    <div className="mt-3 space-y-2">
-      {game.participants.map(({ image, name }) => (
-        <div key={name} className="flex items-center">
-          <div className="flex items-center justify-center w-8 h-8 mr-2 border border-gray-300 rounded-full">
-            <img className="w-4 h-4" src={image} alt={name} />
-          </div>
-          <span className="text-md">{name}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const BetInfo = ({ data }) => {
+const BetInfo = ({ data }: { data: any }) => {
   const {
-    id,
     betId,
     amount,
     potentialPayout,
@@ -39,6 +19,8 @@ const BetInfo = ({ data }) => {
     outcome,
   } = data;
 
+  const { redeem, isRedeeming } = useRedeemBet({ betId });
+
   const isWin = outcome.outcomeId === outcome.condition.wonOutcome?.outcomeId;
   const isResolved = status === "Resolved";
   const isCanceled = status === "Canceled";
@@ -47,11 +29,11 @@ const BetInfo = ({ data }) => {
   const selectionName = getSelectionName({ outcomeId: outcome.outcomeId });
 
   return (
-    <div className="w-full py-4 px-6">
-      <div className="text-md text-gray-600">
-        {dayjs(+createdAt * 1000).format("DD MMMM YYYY HH:mm")}
+    <div className="w-full py-4">
+      <div className="text-md text-gray-500 pb-2">
+        {dayjs(+createdAt * 1000).format("DD MMMM YYYY")}
       </div>
-      <div className="grid lg:grid-cols-4 mt-4 text-md">
+      <div className="flex flex-wrap gap-x-20 gap-y-6 lg:justify-between">
         <div>
           <div className="text-gray-400">Market</div>
           <div className="mt-1 font-semibold">{marketName}</div>
@@ -62,9 +44,7 @@ const BetInfo = ({ data }) => {
         </div>
         <div>
           <div className="text-gray-400">Odds</div>
-          <div className="mt-1 font-semibold">
-            {parseFloat(odds).toFixed(4)}
-          </div>
+          <div className="mt-1 font-semibold">{convertOdds(odds)}</div>
         </div>
         <div>
           <div className="text-gray-400">Bet Amount</div>
@@ -72,8 +52,6 @@ const BetInfo = ({ data }) => {
             {+parseFloat(amount).toFixed(2)} USDT
           </div>
         </div>
-      </div>
-      <div className="grid lg:grid-cols-4 mt-4 mt-3 pt-3 text-md border-t border-gray-200">
         <div>
           <div className="text-gray-400">Possible Win</div>
           <div className="mt-1 font-semibold">
@@ -87,7 +65,7 @@ const BetInfo = ({ data }) => {
               isWin ? (
                 <span className="text-green-600">Win</span>
               ) : (
-                <span className="text-gray-400">Lose</span>
+                <span className="text-red-400">Lose</span>
               )
             ) : isCanceled ? (
               <span className="text-red-700">Canceled</span>
@@ -96,6 +74,13 @@ const BetInfo = ({ data }) => {
             )}
           </div>
         </div>
+        {(isWin || isCanceled) && !isRedeemed && (
+          <div className="self-center">
+            <button className="button" disabled={isRedeeming} onClick={redeem}>
+              {isRedeeming ? "Redeeming..." : "Redeem"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -107,9 +92,11 @@ export default function BetsHistory() {
 
   if (!account) {
     return (
-      <div className="mt-6 py-4 text-md text-center bg-red-200 rounded-md">
-        Please, connect wallet to see your bets history
-      </div>
+      <Layout>
+        <div className="mt-6 py-4 text-md text-center bg-red-500 rounded-md">
+          Please, connect wallet to see your bets history
+        </div>
+      </Layout>
     );
   }
 
@@ -118,16 +105,17 @@ export default function BetsHistory() {
   }
 
   return (
-    <div className="space-y-2">
-      {data?.bets.map((bet) => (
-        <div
-          key={bet.id}
-          className="grid lg:grid-cols-[auto_minmax(400px,520px)] justify-items-start bg-gray-50 border border-gray-200 overflow-hidden rounded-xl"
-        >
-          <BetInfo data={bet} />
-          <GameInfo game={bet.game} />
-        </div>
-      ))}
-    </div>
+    <Layout>
+      <div className="">
+        {data?.bets.map((bet: any) => (
+          <div
+            key={bet.id}
+            className="justify-items-start border-b-2 border-purple-200 overflow-hidden"
+          >
+            <BetInfo data={bet} />
+          </div>
+        ))}
+      </div>
+    </Layout>
   );
 }
