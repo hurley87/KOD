@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 import PlaceBet from "./PlaceBet";
+import { convertOdds } from "@/lib/convertOdds";
 
 type Props = {
   game: any;
@@ -16,15 +17,6 @@ type outcomeProps = {
   selectionName: string;
   length: number;
   odds: number;
-};
-
-// convert EU odds to US odds, convert to whole integers
-const convertOdds = (odds: number) => {
-  if (odds >= 2) {
-    return `+${parseInt((odds * 100).toString())}`;
-  }
-
-  return `-${parseInt((100 / (odds - 1)).toString())}`;
 };
 
 const ViewGame = ({ game, markets }: Props) => {

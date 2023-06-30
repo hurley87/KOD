@@ -1,5 +1,6 @@
 import { getMarketName } from "@azuro-org/dictionaries";
 import usePlaceBet from "@/hooks/usePlaceBet";
+import { convertOdds } from "@/lib/convertOdds";
 
 type Game = {
   sport: {
@@ -31,7 +32,9 @@ const OutcomeInfo = ({ outcome }: OutcomeInfoProps) => {
       <span className="text-gray-400">Selection</span>
       <span className="text-right font-semibold">{outcome.selectionName}</span>
       <span className="text-gray-400">Odds</span>
-      <span className="text-right font-semibold">{outcome.odds}</span>
+      <span className="text-right font-semibold">
+        {convertOdds(outcome.odds)}
+      </span>
     </div>
   );
 };
