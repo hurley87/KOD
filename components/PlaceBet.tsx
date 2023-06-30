@@ -98,11 +98,11 @@ const PlaceBet = ({ outcome, closeModal }: PlaceBetProps) => {
 
   return (
     <div
-      className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center"
+      className="fixed top-0 left-0 w-full h-full flex items-center justify-center"
       onClick={closeModal}
     >
       <div
-        className="w-[400px] overflow-hidden rounded-xl shadow-2xl bg-dark"
+        className="w-[400px] overflow-hidden rounded-xl bg-dark shadow-2xl shadow-primary"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="pt-4 px-6 pb-6">
