@@ -48,12 +48,12 @@ const PageLayout = ({ children }: Props) => {
             )}
 
             {showMenu && (
-              <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right bg-gray-800 rounded-md py-1 border border-2 border-white">
+              <div className="absolute right-0 z-10 mt-2 origin-top-right bg-gray-800 rounded-md py-1 border border-2 border-white">
                 <Link
                   href="/bets"
-                  className="block px-4 py-2 text-sm text-gray-200"
+                  className="block px-4 pt-2 text-sm text-gray-200"
                 >
-                  My Bets
+                  View bets
                 </Link>
                 <span
                   onClick={() => {
@@ -62,7 +62,7 @@ const PageLayout = ({ children }: Props) => {
                   }}
                   className="block px-4 py-2 text-sm text-gray-200 cursor-pointer"
                 >
-                  Disconnect
+                  Disconnect wallet
                 </span>
               </div>
             )}
