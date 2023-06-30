@@ -33,7 +33,7 @@ const PageLayout = ({ children }: Props) => {
               <button
                 onClick={() => setShowMenu(!showMenu)}
                 type="button"
-                className="flex rounded-full bg-gray-800 text-sm p-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                className="flex rounded-full bg-gray-800 border border-2 border-white p-2"
               >
                 {formatAddress(account)} {account && `| ${balance || 0} $DGEN`}
               </button>
@@ -41,14 +41,14 @@ const PageLayout = ({ children }: Props) => {
               <button
                 onClick={activateBrowserWallet}
                 type="button"
-                className="flex rounded-full bg-gray-800 text-sm p-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                className="flex rounded-full bg-gray-800 text-sm p-2 border border-2 border-white"
               >
                 Connect
               </button>
             )}
 
             {showMenu && (
-              <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right bg-gray-800 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right bg-gray-800 rounded-md py-1 border border-2 border-white">
                 <Link
                   href="/bets"
                   className="block px-4 py-2 text-sm text-gray-200"
