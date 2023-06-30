@@ -94,7 +94,7 @@ export default function BetsHistory() {
     return (
       <Layout>
         <div className="mt-6 py-4 text-md text-center bg-red-500 rounded-md">
-          Please, connect wallet to see your bets history
+          Connect your wallet to see your bets history
         </div>
       </Layout>
     );
