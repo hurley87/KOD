@@ -39,14 +39,14 @@ export default function Home() {
   return (
     <Layout>
       {/* list sports as tabs that update sport */}
-      <div className="flex space-x-4 my-6 justify-center">
+      <div className="flex space-x-2 my-6 justify-left">
         {sports.map((sportName) => (
           <button
             key={sportName}
             className={`${
               sport === sportName
-                ? "text-primary border-b-2 border-primary"
-                : ""
+                ? "text-black border-2 border-primary transition bg-primary rounded-md"
+                : "rounded-md hover:bg-gray-800 text-primary border-2 border-primary"
             } text-sm px-4 py-1 text-lg font-black`}
             onClick={() => setSport(sportName)}
           >
