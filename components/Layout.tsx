@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Raleway } from "next/font/google";
 import { useState } from "react";
+import { BigNumber } from "ethers";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
@@ -35,7 +36,11 @@ const PageLayout = ({ children }: Props) => {
                 type="button"
                 className="flex rounded-full bg-gray-800 border border-2 border-white p-2"
               >
-                {formatAddress(account)} {account && `| ${balance || 0} $DGEN`}
+                {formatAddress(account)}{" "}
+                {account &&
+                  `| ${
+                    (balance && parseInt(balance.toString()) / 10 ** 18) || 0
+                  } $DGEN`}
               </button>
             ) : (
               <button
